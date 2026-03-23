@@ -59,8 +59,7 @@ export function AdminReviewStatus() {
     loadStatus()
       .catch((e: unknown) => {
         if (!cancelled) {
-          const raw = e instanceof Error ? e.message : String(e);
-          setError(friendlyErrorMessage(raw));
+          setError(e instanceof Error ? e.message : String(e));
         }
       })
       .finally(() => {
