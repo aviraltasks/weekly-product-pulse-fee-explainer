@@ -60,13 +60,13 @@
 
 | # | Deliverable | Status |
 |---|-------------|--------|
-| D1 | **Working prototype link** *or* **≤3 min demo video** | ☐ |
-| D2 | **Weekly note** (MD / PDF / Doc) | ☐ |
-| D3 | **Notes/Doc snippet** showing appended entry | ☐ |
-| D4 | **Email** screenshot or pasted text (sent mail or preview — README notes which) | ☐ |
-| D5 | **Reviews CSV sample** | ☐ |
-| D6 | **Source list** (4–6 URLs) | ☐ |
-| D7 | **README:** how to re-run, **where MCP approval happens**, **fee scenario** covered | ☐ |
+| D1 | **Working prototype link** *or* **≤3 min demo video** | [x] |
+| D2 | **Weekly note** (MD / PDF / Doc) | [x] |
+| D3 | **Notes/Doc snippet** showing appended entry | [x] |
+| D4 | **Email** screenshot or pasted text (sent mail or preview — README notes which) | [x] |
+| D5 | **Reviews CSV sample** | [x] |
+| D6 | **Source list** (4–6 URLs) | [x] |
+| D7 | **README:** how to re-run, **where MCP approval happens**, **fee scenario** covered | [x] |
 
 ---
 
@@ -80,7 +80,7 @@
 | Admin UI: **Subscribers Enter** + **Admin Enter** (no separate Automation tab) | [x] |
 | Scheduler **48h**: **fetch reviews → CSV only** (no auto-append, no auto-send) | [x] |
 | **Weekly Pulse N** serial + **As on** timestamp in Doc & email | [x] |
-| **Deploy:** e.g. Vercel + Render/Fly (or similar) | ☐ |
+| **Deploy:** e.g. Vercel + Render/Fly (or similar) | [x] |
 
 ---
 

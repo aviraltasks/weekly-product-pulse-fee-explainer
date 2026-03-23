@@ -12,9 +12,8 @@
 
 ---
 
-## Later (Phase 9)
+## Post-submission enhancements (optional)
 
-- [ ] Deploy, README polish, submission artifacts
 - [ ] Add small admin badge for `/api/reviews/decision` (`run_ready` / `skip_*`)
 - [ ] Add CI smoke checks (`backend pytest` + `frontend build`) on push
 
@@ -22,7 +21,7 @@
 
 ## Current focus
 
-- [ ] **Phase 9** — Deploy, resilience polish, submission artifacts
+- [x] **Phase 9** — Deploy, resilience polish, submission artifacts
 
 ---
 

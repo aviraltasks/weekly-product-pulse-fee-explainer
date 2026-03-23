@@ -1,13 +1,13 @@
 # Weekly Product Pulse and Fee Explainer
 
-**Status:** **Phase 8 complete** — web UI: subscribers signup, admin **Create preview** / **Append to Doc** / **Send email** + global footer. Next: **Phase 9** — deploy & submission polish — see **`DEVELOPMENT_PLAN.md`**.
+**Status:** **Phase 9 complete** — deployed on Render + Vercel with external 48h fetch automation via GitHub Actions.
 
 ## App URL (try the product)
 
 | Environment | URL |
 |---------------|-----|
 | **Local (full stack)** | **[http://localhost:3000](http://localhost:3000)** — start backend `:8000` + frontend `:3000` (see below). |
-| **Production** | *Not set yet — after Phase 9 deploy, paste your Vercel (frontend) + API URL here.* |
+| **Production** | **Frontend:** [https://weekly-product-pulse-fee-expl-git-b485eb-aviral-rawats-projects.vercel.app](https://weekly-product-pulse-fee-expl-git-b485eb-aviral-rawats-projects.vercel.app) · **Backend API:** [https://indmoney-pulse-api.onrender.com](https://indmoney-pulse-api.onrender.com) |
 
 **Single URL to test everything in the browser:** **http://localhost:3000**
 
@@ -65,7 +65,7 @@ npm run dev
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Phases, tech decisions, pulse logic (§3.1), footer |
 | [`ASSIGNMENT_BRIEF.md`](ASSIGNMENT_BRIEF.md) | Course rubric + submission checklist |
 | [`SAMPLE_PULSE_OUTPUTS.md`](SAMPLE_PULSE_OUTPUTS.md) | Mock Google Doc + email (`Weekly Pulse N`) |
-| [`DEVELOPMENT_PLAN.md`](DEVELOPMENT_PLAN.md) | Phase 0–9 checklist (Phase 0–8 ✅; Phase 9 pending) |
+| [`DEVELOPMENT_PLAN.md`](DEVELOPMENT_PLAN.md) | Phase 0–9 checklist (all phases complete) |
 | [`Phase-0-Plan-Docs/PHASES.md`](Phase-0-Plan-Docs/PHASES.md) | One-line phase index |
 | [`Phase-0-Plan-Docs/README.md`](Phase-0-Plan-Docs/README.md) | Phase 0 — Plan & Docs |
 | [`apps/README.md`](apps/README.md) | **`apps/`** = API + web; **`Phase-*`** = docs only |
@@ -75,7 +75,19 @@ npm run dev
 | [`DEPLOY_AUTOMATION.md`](DEPLOY_AUTOMATION.md) | Render Blueprint + GitHub Actions cron/smoke setup |
 | [`docs/GITHUB_ACTIONS_CRON_SETUP.md`](docs/GITHUB_ACTIONS_CRON_SETUP.md) | **48h fetch:** GitHub secrets + test run (step-by-step) |
 
-When integrations land, this README will also cover: MCP approvals, fee scenario, and **author-provided** source list (4–6 URLs — no invented links).
+## Submission notes (brief alignment)
+
+- **Where MCP approval happens:** `/admin` only. `Create preview` is read/process. Side effects require manual clicks: `Append to Google Doc` and `Send email`.
+- **No auto-send guarantee:** background automation only triggers review fetch (`/api/reviews/fetch`). It never sends email or appends doc.
+- **Fee scenario covered:** Exit Load explainer (facts-only bullets, 2 official links, `last_checked` timestamp).
+
+## Source list (4-6 URLs)
+
+- [INDmoney app on Google Play](https://play.google.com/store/apps/details?id=in.indwealth&hl=en_IN)
+- [INDmoney - SBI Large Cap Fund Direct Growth](https://www.indmoney.com/mutual-funds/sbi-large-cap-fund-direct-growth-3046)
+- [SEBI Investor - Exit Load](https://investor.sebi.gov.in/exit_load.html)
+- [Google Docs API](https://developers.google.com/docs/api)
+- [Gmail SMTP + App Passwords](https://support.google.com/accounts/answer/185833)
 
 ---
 

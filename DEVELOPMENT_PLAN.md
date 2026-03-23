@@ -23,7 +23,7 @@
 | 6 | MCP #1: Google Doc append | [x] |
 | 7 | Subscribers store & MCP #2: Gmail send | [x] |
 | 8 | Admin & subscriber UI + global footer | [x] |
-| 9 | Deploy, resilience polish, submission artifacts | [ ] |
+| 9 | Deploy, resilience polish, submission artifacts | [x] |
 
 ---
 
