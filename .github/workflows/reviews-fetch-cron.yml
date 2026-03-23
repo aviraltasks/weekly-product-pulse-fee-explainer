@@ -18,23 +18,12 @@ jobs:
           test -n "$API_BASE_URL" || (echo "Missing API_BASE_URL" && exit 1)
           test -n "$CRON_TRIGGER_TOKEN" || (echo "Missing CRON_TRIGGER_TOKEN" && exit 1)
 
-      - name: Warm up backend health (cold-start tolerant)
+      - name: Health check
         env:
           API_BASE_URL: ${{ secrets.API_BASE_URL }}
         run: |
           set -e
-          for i in {1..10}; do
-            code=$(curl -sS -o /tmp/health.json -w "%{http_code}" "$API_BASE_URL/api/health" || true)
-            if [ "$code" = "200" ]; then
-              echo "Health OK"
-              cat /tmp/health.json
-              exit 0
-            fi
-            echo "Health attempt $i failed (HTTP $code). Sleeping 20s..."
-            sleep 20
-          done
-          echo "Backend did not become healthy in time"
-          exit 1
+          curl -sS -f "$API_BASE_URL/api/health" | tee /tmp/health.json
 
       - name: Trigger protected fetch
         env:

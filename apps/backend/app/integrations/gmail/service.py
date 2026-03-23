@@ -1,4 +1,8 @@
-"""Send mail via Gmail SMTP (app password)."""
+"""
+Send mail via standard Gmail SMTP: smtp.gmail.com:587, STARTTLS, then AUTH + SEND.
+Requires GMAIL_SMTP_USER and GMAIL_APP_PASSWORD (Google App Password).
+Outbound SMTP is allowed on Render Starter; it is blocked on Render Free web services.
+"""
 
 from __future__ import annotations
 

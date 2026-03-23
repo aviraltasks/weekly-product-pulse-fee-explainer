@@ -1,4 +1,4 @@
-"""Runtime storage mode guards for free-tier ephemeral hosts."""
+"""Runtime storage mode guards for hosts with ephemeral local disk."""
 
 from __future__ import annotations
 

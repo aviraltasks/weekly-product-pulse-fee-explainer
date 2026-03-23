@@ -27,4 +27,5 @@ This repo now includes infrastructure/workflow automation so deployment is repea
 ## Notes
 
 - Keep `SCHEDULER_ENABLED=false` in hosted environments and rely on external cron.
-- Keep `STORAGE_MODE=ephemeral` on free-tier hosts unless you migrate to persistent storage.
+- `STORAGE_MODE=ephemeral` is the default; set `persistent` if your host guarantees durable disk (Render Starter still uses ephemeral disk unless you add a persistent disk).
+- **Gmail:** outbound SMTP (`smtp.gmail.com:587` + app password) works on **Render Starter**; it is blocked on Render **Free** web services.

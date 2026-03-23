@@ -6,6 +6,7 @@ All notable changes to this project are logged here (lightweight; per `Brain.md`
 
 ## [Unreleased]
 
+- **Deploy / ops (Starter):** `render.yaml` uses **`plan: starter`** (Gmail SMTP allowed). Removed free-tier-only **frontend GET retries** and **error substring remapping**; GitHub cron **health check** is a single `curl` (no long cold-start loop).
 - **UI premium polish (home hero):** Replaced basic right-side placeholder with a restrained glass-style abstract dashboard card (muted metrics bars/dots/sparkline), then softened shadow for a quieter premium look.
 - **Branding + footer text:** Header title updated to **INDmoney Feedback Pulse**; footer wording updated to **Last deployed on** (IST deploy stamp), and internal helper hints removed from user-facing UI.
 - **Footer architecture panel:** Upgraded accordion to display the full architecture content from `apps/frontend/public/architecture-full.md` instead of a short inline summary.

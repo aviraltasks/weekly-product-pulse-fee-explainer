@@ -14,7 +14,6 @@ function initSelection(rows: SubscriberRecord[]): Record<string, boolean> {
   return m;
 }
 
-type HealthJson = { status?: string; email_format_version?: string };
 type ReviewsStatusJson = { last_success_at_iso?: string | null };
 
 function formatIst(iso: string | null | undefined): string {
@@ -44,12 +43,11 @@ export function AdminPreviewConsole() {
   const [error, setError] = useState<string | null>(null);
   const [actionMessage, setActionMessage] = useState<string | null>(null);
   const [showJson, setShowJson] = useState(false);
-  const [apiHealth, setApiHealth] = useState<HealthJson | null>(null);
   const [lastReviewFetchIso, setLastReviewFetchIso] = useState<string | null>(null);
 
   const loadSubscribers = useCallback(async () => {
     setError(null);
-    const res = await fetch(`${apiBase()}/api/subscribers`);
+    const res = await fetch(`${apiBase()}/api/subscribers`, { cache: "no-store" });
     if (!res.ok) {
       throw new Error(await readApiError(res));
     }
@@ -77,28 +75,13 @@ export function AdminPreviewConsole() {
 
   useEffect(() => {
     let cancelled = false;
-    fetch(`${apiBase()}/api/reviews/status`)
+    fetch(`${apiBase()}/api/reviews/status`, { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : Promise.resolve({})))
       .then((j: ReviewsStatusJson) => {
         if (!cancelled) setLastReviewFetchIso(j.last_success_at_iso ?? null);
       })
       .catch(() => {
         if (!cancelled) setLastReviewFetchIso(null);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch(`${apiBase()}/api/health`)
-      .then((r) => (r.ok ? r.json() : Promise.resolve({})))
-      .then((j: HealthJson) => {
-        if (!cancelled) setApiHealth(j);
-      })
-      .catch(() => {
-        if (!cancelled) setApiHealth({});
       });
     return () => {
       cancelled = true;
@@ -203,36 +186,9 @@ export function AdminPreviewConsole() {
     setSelected(next);
   };
 
-  const apiBaseUrl = apiBase();
-  const healthStale =
-    apiHealth != null &&
-    (apiHealth.email_format_version == null || apiHealth.email_format_version !== "2");
-
   return (
     <div className="admin-console">
-      <p className="muted small" style={{ marginBottom: "0.75rem" }}>
-        <strong>API</strong> this page calls:{" "}
-        <code style={{ wordBreak: "break-all" }}>{apiBaseUrl}</code>
-        {apiHealth && (
-          <>
-            {" "}
-            · <code>/api/health</code> →{" "}
-            <code>
-              email_format_version=
-              {apiHealth.email_format_version ?? "— missing (old server?)"}
-            </code>
-          </>
-        )}
-      </p>
-      {healthStale && (
-        <p className="alert alert--error" role="alert">
-          This browser is not talking to the template v2 API. Fix: run uvicorn from{" "}
-          <strong>this repo&apos;s</strong> <code>apps/backend</code> (see{" "}
-          <code>scripts/restart-backend.ps1</code>), then reload. If you use{" "}
-          <code>.env.local</code>, set <code>NEXT_PUBLIC_API_URL=http://127.0.0.1:8000</code> and{" "}
-          <code>npm run dev</code> again.
-        </p>
-      )}
+      
       <div className="admin-console__grid admin-console__grid--top">
         <AdminReviewStatus />
         <section className="card card--generate-preview" aria-label="Generate preview">
@@ -419,13 +375,6 @@ export function AdminPreviewConsole() {
                 </p>
               </article>
             )}
-            <article className="muted small">
-              <p>
-                Data: {preview.pulse.meta.reviews_sampled} reviews sampled · Note ~{" "}
-                {preview.pulse.meta.note_word_count} words · {preview.pulse.meta.groq_model} +{" "}
-                {preview.pulse.meta.gemini_model}
-              </p>
-            </article>
           </div>
 
           <details className="email-preview-details" open>
@@ -433,22 +382,6 @@ export function AdminPreviewConsole() {
             <p>
               <strong>Subject:</strong> {preview.email.subject}
             </p>
-            <p className="muted small">
-              Formatted view below matches the <strong>HTML</strong> part of the multipart email
-              (bold title, section labels, spacing, rule before the fee block). This is what most
-              mail clients show.
-            </p>
-            {(preview.email_template_version !== "2" ||
-              preview.email.format_version !== "2") && (
-              <p className="alert alert--error" role="alert">
-                <strong>Preview payload is not template v2.</strong> Root{" "}
-                <code>email_template_version={String(preview.email_template_version)}</code>, nested{" "}
-                <code>email.format_version={String(preview.email.format_version)}</code> — expected{" "}
-                <code>2</code>. You are hitting an old API process or wrong <code>NEXT_PUBLIC_API_URL</code>.
-                Use <code>scripts/restart-backend.ps1</code>, confirm <code>/api/health</code>, then{" "}
-                <strong>Create preview</strong> again.
-              </p>
-            )}
             <div className="email-html-preview-wrap">
               <iframe
                 title="Email HTML preview (matches sent mail)"

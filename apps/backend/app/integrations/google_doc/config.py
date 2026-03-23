@@ -20,7 +20,7 @@ def get_service_account_file() -> str:
 def get_service_account_json() -> str:
     """
     Raw service account JSON string.
-    Recommended for hosted free tiers where file mounts are awkward.
+    Recommended for hosted environments where file mounts are awkward.
     """
     return os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON", "").strip()
 

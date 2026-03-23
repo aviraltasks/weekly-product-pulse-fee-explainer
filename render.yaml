@@ -3,7 +3,7 @@ services:
     name: indmoney-pulse-api
     runtime: python
     rootDir: apps/backend
-    plan: free
+    plan: starter
     autoDeploy: true
     buildCommand: pip install -r requirements.txt -r requirements-dev.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT

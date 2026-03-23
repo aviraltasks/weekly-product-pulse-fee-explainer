@@ -45,7 +45,7 @@ export function AdminReviewStatus() {
 
   const loadStatus = useCallback(async () => {
     setError(null);
-    const res = await fetch(`${apiBase()}/api/reviews/status`);
+    const res = await fetch(`${apiBase()}/api/reviews/status`, { cache: "no-store" });
     if (!res.ok) {
       throw new Error(`Status ${res.status}`);
     }
@@ -59,7 +59,8 @@ export function AdminReviewStatus() {
     loadStatus()
       .catch((e: unknown) => {
         if (!cancelled) {
-          setError(e instanceof Error ? e.message : String(e));
+          const raw = e instanceof Error ? e.message : String(e);
+          setError(friendlyErrorMessage(raw));
         }
       })
       .finally(() => {
@@ -133,7 +134,7 @@ export function AdminReviewStatus() {
             <dd>
               {status.scheduler_enabled
                 ? `Every ${status.fetch_interval_hours}h (fetch to CSV only)`
-                : "Off"}
+                : "External cron mode (in-app scheduler off)"}
             </dd>
           </div>
         </dl>
