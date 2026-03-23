@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { AdminPreviewConsole } from "@/components/AdminPreviewConsole";
 
+/** Avoid edge/CDN serving a stale admin shell; always get fresh HTML + JS after deploy. */
+export const dynamic = "force-dynamic";
+
 export default function AdminPage() {
   return (
     <>

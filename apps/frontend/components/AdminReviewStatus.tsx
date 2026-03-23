@@ -130,11 +130,11 @@ export function AdminReviewStatus() {
             </div>
           )}
           <div className="reviews-stats__row">
-            <dt>Scheduler</dt>
+            <dt>Automated fetch</dt>
             <dd>
               {status.scheduler_enabled
-                ? `Every ${status.fetch_interval_hours}h (fetch to CSV only)`
-                : "External cron mode (in-app scheduler off)"}
+                ? `In-app job every ${status.fetch_interval_hours}h (CSV only)`
+                : "GitHub Actions cron every 48h (in-app scheduler disabled in production)"}
             </dd>
           </div>
         </dl>
