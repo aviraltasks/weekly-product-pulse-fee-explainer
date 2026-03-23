@@ -1,3 +1,5 @@
+# Calls Render POST /api/reviews/fetch with X-Cron-Token (needs secrets API_BASE_URL + CRON_TRIGGER_TOKEN).
+# Schedule: ~every 2 days at 03:17 UTC (GitHub cron has no true "every 48h rolling"; see docs/GITHUB_ACTIONS_CRON_SETUP.md).
 name: Reviews Fetch Cron
 
 on:

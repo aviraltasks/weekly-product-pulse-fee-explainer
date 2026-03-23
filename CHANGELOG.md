@@ -6,6 +6,7 @@ All notable changes to this project are logged here (lightweight; per `Brain.md`
 
 ## [Unreleased]
 
+- **Docs:** Added `docs/GITHUB_ACTIONS_CRON_SETUP.md` — one-time GitHub Actions secrets and manual test for the 48h review fetch workflow.
 - **Admin / footer:** Footer deploy stamp updated; **Automated fetch** label clarifies GitHub cron vs in-app scheduler; **`/admin`** uses `force-dynamic` so the admin UI isn’t served from a stale cached shell after deploy.
 - **Deploy / ops (Starter):** `render.yaml` uses **`plan: starter`** (Gmail SMTP allowed). Removed free-tier-only **frontend GET retries** and **error substring remapping**; GitHub cron **health check** is a single `curl` (no long cold-start loop).
 - **UI premium polish (home hero):** Replaced basic right-side placeholder with a restrained glass-style abstract dashboard card (muted metrics bars/dots/sparkline), then softened shadow for a quieter premium look.

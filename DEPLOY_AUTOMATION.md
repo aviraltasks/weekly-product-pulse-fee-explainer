@@ -14,10 +14,10 @@ This repo now includes infrastructure/workflow automation so deployment is repea
 2. Create the backend service from `render.yaml` (Render Blueprint).
 3. Set sensitive env vars in Render (`sync: false` entries).
 4. Connect your repo to Vercel and set frontend env vars.
-5. Add GitHub repository secrets:
-   - `API_BASE_URL`
-   - `FRONTEND_URL`
-   - `CRON_TRIGGER_TOKEN`
+5. Add GitHub repository secrets (see **`docs/GITHUB_ACTIONS_CRON_SETUP.md`** for step-by-step):
+   - **`API_BASE_URL`** — Render backend base URL (no trailing slash), e.g. `https://indmoney-pulse-api.onrender.com`
+   - **`CRON_TRIGGER_TOKEN`** — must match Render’s `CRON_TRIGGER_TOKEN` (and Vercel if you use the Next.js fetch proxy)
+   - **`FRONTEND_URL`** — only for the optional `Deploy Smoke Check` workflow, not for the 48h fetch cron
 
 ## Runbooks
 

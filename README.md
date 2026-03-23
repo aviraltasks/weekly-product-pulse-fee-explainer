@@ -73,6 +73,7 @@ npm run dev
 | [`DEVLOG.md`](DEVLOG.md) | Session notes |
 | [`DEV_WORKFLOW.md`](DEV_WORKFLOW.md) | **Local URLs, reload steps, avoid wrong process on :8000/:3000**, scheduler note, **§ robustness & Phase 9 deploy gate** |
 | [`DEPLOY_AUTOMATION.md`](DEPLOY_AUTOMATION.md) | Render Blueprint + GitHub Actions cron/smoke setup |
+| [`docs/GITHUB_ACTIONS_CRON_SETUP.md`](docs/GITHUB_ACTIONS_CRON_SETUP.md) | **48h fetch:** GitHub secrets + test run (step-by-step) |
 
 When integrations land, this README will also cover: MCP approvals, fee scenario, and **author-provided** source list (4–6 URLs — no invented links).
 
