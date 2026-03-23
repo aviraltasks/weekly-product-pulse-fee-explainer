@@ -1,0 +1,70 @@
+name: Deploy Smoke Check
+
+on:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Validate required secrets
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
+          CRON_TRIGGER_TOKEN: ${{ secrets.CRON_TRIGGER_TOKEN }}
+        run: |
+          test -n "$API_BASE_URL" || (echo "Missing API_BASE_URL" && exit 1)
+          test -n "$FRONTEND_URL" || (echo "Missing FRONTEND_URL" && exit 1)
+          test -n "$CRON_TRIGGER_TOKEN" || (echo "Missing CRON_TRIGGER_TOKEN" && exit 1)
+
+      - name: API health includes template version
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+        run: |
+          set -e
+          body=$(curl -sS "$API_BASE_URL/api/health")
+          echo "$body"
+          echo "$body" | grep '"status":"ok"'
+          echo "$body" | grep '"email_format_version":"2"'
+
+      - name: Decision endpoint reachable
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+        run: |
+          set -e
+          curl -sS "$API_BASE_URL/api/reviews/decision" | tee /tmp/decision.json
+          grep '"should_run_pulse"' /tmp/decision.json
+
+      - name: Protected fetch rejects missing token
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+        run: |
+          set -e
+          code=$(curl -sS -o /tmp/no-token.json -w "%{http_code}" -X POST "$API_BASE_URL/api/reviews/fetch")
+          echo "HTTP $code"
+          test "$code" = "401"
+
+      - name: Protected fetch accepts correct token
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          CRON_TRIGGER_TOKEN: ${{ secrets.CRON_TRIGGER_TOKEN }}
+        run: |
+          set -e
+          code=$(curl -sS -o /tmp/fetch-ok.json -w "%{http_code}" \
+            -X POST "$API_BASE_URL/api/reviews/fetch" \
+            -H "X-Cron-Token: $CRON_TRIGGER_TOKEN")
+          echo "HTTP $code"
+          cat /tmp/fetch-ok.json
+          test "$code" = "200"
+
+      - name: Frontend home and admin reachable
+        env:
+          FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
+        run: |
+          set -e
+          home=$(curl -sS -o /tmp/home.html -w "%{http_code}" "$FRONTEND_URL")
+          admin=$(curl -sS -o /tmp/admin.html -w "%{http_code}" "$FRONTEND_URL/admin")
+          echo "home=$home admin=$admin"
+          test "$home" = "200"
+          test "$admin" = "200"

@@ -1,0 +1,52 @@
+# Secrets & local env
+.env
+.env.*
+!.env.example
+*.pem
+secrets/
+credentials.json
+token.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+coverage.xml
+htmlcov/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+.nuxt/
+.turbo/
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS & editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Data & runtime (keep structure; ignore heavy/local CSV in dev if needed)
+# Uncomment if you don't want to commit sample CSVs:
+# data/reviews_master.csv
+apps/backend/data/fee_explainer_cache.json
+apps/backend/data/weekly_pulse_counter.json
+apps/backend/data/subscribers.json

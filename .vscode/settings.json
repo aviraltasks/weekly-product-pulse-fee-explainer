@@ -1,0 +1,7 @@
+{
+  // Prevent Markdown formatters from rewriting tables / stripping checkbox chars on Ctrl+S
+  "[markdown]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": null
+  }
+}

@@ -1,0 +1,12 @@
+---
+description: Local dev URLs, single backend on 8000, doc sync when changing behavior
+alwaysApply: true
+---
+
+# Local dev & recurrence prevention
+
+- **UI + email:** `http://localhost:3000/admin` (Create preview → Send email). Home: `http://localhost:3000`. API health: `http://127.0.0.1:8000/api/health` (expect `email_format_version` + `X-Email-Format-Version`).
+- **One backend** on port **8000**: use `.\scripts\restart-backend.ps1` from repo root (or `apps\backend\.\restart-backend.ps1`). Stop uvicorn with **Ctrl+C** before restarting; avoid multiple `uvicorn` processes.
+- **One frontend** on **3000**: `cd apps/frontend` → `npm run dev`. After changing `NEXT_PUBLIC_API_URL`, restart Next.
+- **Scheduler** (48h reviews fetch) runs **inside** the FastAPI process — duplicate backends or wrong listener on 8000 causes confusing health/preview/email behavior.
+- **When changing env, ports, APIs, or ops behavior:** update `README.md`, `.env.example` files, and **`DEV_WORKFLOW.md`** / **`HEALTH.md`** / **`DEVLOG.md`** as appropriate — see **`DEV_WORKFLOW.md`** → “Docs / config — keep in sync”.

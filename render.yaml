@@ -1,0 +1,57 @@
+services:
+  - type: web
+    name: indmoney-pulse-api
+    runtime: python
+    rootDir: apps/backend
+    plan: free
+    autoDeploy: true
+    buildCommand: pip install -r requirements.txt -r requirements-dev.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: SCHEDULER_ENABLED
+        value: "false"
+      - key: STORAGE_MODE
+        value: ephemeral
+      - key: FRONTEND_ORIGIN
+        sync: false
+      - key: CRON_TRIGGER_TOKEN
+        sync: false
+      - key: PLAY_STORE_APP_ID
+        value: in.indwealth
+      - key: PLAY_STORE_LANG
+        value: en
+      - key: PLAY_STORE_COUNTRY
+        value: in
+      - key: PLAY_FETCH_MAX_REVIEWS
+        value: "500"
+      - key: REVIEW_MIN_CONTENT_LENGTH
+        value: "10"
+      - key: REVIEW_MIN_MEANINGFUL_WORDS
+        value: "3"
+      - key: MIN_MEANINGFUL_NEW_REVIEWS_FOR_PULSE
+        value: "5"
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: llama-3.3-70b-versatile
+      - key: GEMINI_MODEL
+        value: gemini-3.1-flash-lite-preview
+      - key: LLM_MAX_RETRIES
+        value: "3"
+      - key: LLM_RETRY_BACKOFF_SEC
+        value: "1.2"
+      - key: GOOGLE_DOC_ID
+        sync: false
+      - key: GOOGLE_SERVICE_ACCOUNT_JSON
+        sync: false
+      - key: GMAIL_SMTP_USER
+        sync: false
+      - key: GMAIL_APP_PASSWORD
+        sync: false
+      - key: GMAIL_STRICT_RECIPIENTS
+        value: "true"

@@ -1,0 +1,51 @@
+name: Reviews Fetch Cron
+
+on:
+  schedule:
+    - cron: "17 3 */2 * *"
+  workflow_dispatch:
+
+jobs:
+  trigger-fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Validate required secrets
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          CRON_TRIGGER_TOKEN: ${{ secrets.CRON_TRIGGER_TOKEN }}
+        run: |
+          test -n "$API_BASE_URL" || (echo "Missing API_BASE_URL" && exit 1)
+          test -n "$CRON_TRIGGER_TOKEN" || (echo "Missing CRON_TRIGGER_TOKEN" && exit 1)
+
+      - name: Warm up backend health (cold-start tolerant)
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+        run: |
+          set -e
+          for i in {1..10}; do
+            code=$(curl -sS -o /tmp/health.json -w "%{http_code}" "$API_BASE_URL/api/health" || true)
+            if [ "$code" = "200" ]; then
+              echo "Health OK"
+              cat /tmp/health.json
+              exit 0
+            fi
+            echo "Health attempt $i failed (HTTP $code). Sleeping 20s..."
+            sleep 20
+          done
+          echo "Backend did not become healthy in time"
+          exit 1
+
+      - name: Trigger protected fetch
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          CRON_TRIGGER_TOKEN: ${{ secrets.CRON_TRIGGER_TOKEN }}
+        run: |
+          set -e
+          code=$(curl -sS -o /tmp/fetch.json -w "%{http_code}" \
+            -X POST "$API_BASE_URL/api/reviews/fetch" \
+            -H "X-Cron-Token: $CRON_TRIGGER_TOKEN" \
+            -H "Content-Type: application/json")
+          echo "HTTP $code"
+          cat /tmp/fetch.json
+          test "$code" = "200"

@@ -1,0 +1,10 @@
+{
+  "_comment": "Source 2: SEBI investor article — 'How Does Exit Load Work?' summarized and hardcoded (no scrape) to avoid token waste.",
+  "bullets": [
+    "When you redeem, the fund house calculates exit load from the redemption amount and the time of redemption.",
+    "Structures differ by fund type: equity funds often apply exit loads for redemptions within about a year; debt and other categories may use shorter windows or none.",
+    "Exit loads discourage frequent trading and help managers keep a more stable pool of assets.",
+    "With fewer short-term redemptions, the portfolio can stay more stable for all investors.",
+    "Some funds reduce the load over time (e.g. higher if redeemed very early); liquid funds often charge no exit load."
+  ]
+}

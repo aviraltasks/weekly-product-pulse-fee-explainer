@@ -1,0 +1,5 @@
+{
+  "fee_scenario": "INDmoney · SBI Large Cap · Exit load",
+  "source1_placeholder_bullet": "SBI Large Cap exit-load tiers (e.g. 0.25% / 0.1%) are loaded from INDmoney (Source 1) after POST /api/fee/refresh or first successful scrape.",
+  "explanation_bullets": []
+}
