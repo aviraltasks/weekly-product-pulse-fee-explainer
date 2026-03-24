@@ -324,7 +324,7 @@ export function AdminPreviewConsole() {
 
           <div className="preview-sections">
             <article>
-              <h3 className="font-serif">Themes (top 3)</h3>
+              <h3 className="font-serif">Reviews&apos; themes (top 3)</h3>
               <ol>
                 {preview.pulse.analysis.top_3_theme_names.map((name) => (
                   <li key={name}>{name}</li>
@@ -332,21 +332,22 @@ export function AdminPreviewConsole() {
               </ol>
             </article>
             <article>
-              <h3 className="font-serif">Quotes</h3>
+              <h3 className="font-serif">Customer quotes:</h3>
               <ul>
                 {preview.pulse.analysis.quotes.map((q) => (
                   <li key={`${q.theme}-${q.quote.slice(0, 24)}`}>
-                    <strong>{q.theme}:</strong> {q.quote}
+                    <strong>{q.theme}:</strong>{" "}
+                    <em>&quot;{q.quote}&quot;</em>
                   </li>
                 ))}
               </ul>
             </article>
             <article>
-              <h3 className="font-serif">Weekly note</h3>
+              <h3 className="font-serif">Weekly analysis:</h3>
               <p className="preview-note">{preview.pulse.weekly_note}</p>
             </article>
             <article>
-              <h3 className="font-serif">Actions</h3>
+              <h3 className="font-serif">Key takeaways/actionables:</h3>
               <ul>
                 {preview.pulse.actions.map((a) => (
                   <li key={a}>{a}</li>
@@ -355,7 +356,7 @@ export function AdminPreviewConsole() {
             </article>
             {preview.pulse.fee && (
               <article>
-                <h3 className="font-serif">Fee explainer</h3>
+                <h3 className="font-serif">This Week&apos;s Fee Explainer:</h3>
                 <p>{preview.pulse.fee.fee_scenario}</p>
                 <ul>
                   {preview.pulse.fee.explanation_bullets.map((b) => (

@@ -6,6 +6,7 @@ All notable changes to this project are logged here (lightweight; per `Brain.md`
 
 ## [Unreleased]
 
+- **Admin preview labels:** `/admin` preview pane section titles updated; quote lines use italic + straight double quotes (UI only; email unchanged).
 - **Phase 9 complete:** Production deploy live (Render backend + Vercel frontend), GitHub Actions 48h protected fetch automation enabled, and submission/docs checklists closed.
 - **Docs:** Added `docs/GITHUB_ACTIONS_CRON_SETUP.md` — one-time GitHub Actions secrets and manual test for the 48h review fetch workflow.
 - **Admin / footer:** Footer deploy stamp updated; **Automated fetch** label clarifies GitHub cron vs in-app scheduler; **`/admin`** uses `force-dynamic` so the admin UI isn’t served from a stale cached shell after deploy.
