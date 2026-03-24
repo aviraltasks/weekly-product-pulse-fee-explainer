@@ -7,6 +7,7 @@ All notable changes to this project are logged here (lightweight; per `Brain.md`
 ## [Unreleased]
 
 - **Hybrid quotes pack:** `GET /api/reviews/quotes-export` (CSV: id, date, full text — no names); admin **Download all quotes** link; optional **Attach all quotes CSV** on Gmail send (`attach_quotes_export`).
+- **Admin download UX:** Next.js **`/api/reviews/quotes-export`** proxies to the backend so the link is same-origin (works with `download=` after Render has the route).
 - **Admin preview labels:** `/admin` preview pane section titles updated; quote lines use italic + straight double quotes (UI only; email unchanged).
 - **Phase 9 complete:** Production deploy live (Render backend + Vercel frontend), GitHub Actions 48h protected fetch automation enabled, and submission/docs checklists closed.
 - **Docs:** Added `docs/GITHUB_ACTIONS_CRON_SETUP.md` — one-time GitHub Actions secrets and manual test for the 48h review fetch workflow.

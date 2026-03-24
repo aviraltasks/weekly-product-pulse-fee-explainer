@@ -150,11 +150,9 @@ export function AdminReviewStatus() {
       </p>
       <p className="muted small" style={{ marginTop: "0.75rem" }}>
         <a
-          href={`${apiBase()}/api/reviews/quotes-export`}
+          href="/api/reviews/quotes-export"
           className="link-button"
-          download
-          target="_blank"
-          rel="noopener noreferrer"
+          download="review_quotes_export.csv"
         >
           Download all quotes (CSV)
         </a>
