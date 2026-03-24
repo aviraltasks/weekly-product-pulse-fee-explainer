@@ -32,6 +32,7 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 - **Reliable backend restart (Windows):** `.\scripts\restart-backend.ps1` from **repo root**, **or** `.\restart-backend.ps1` from **`apps/backend`** (wrapper to the same script) — clears `apps/backend/app/**/__pycache__`, then runs uvicorn from **`apps/backend`** so imports always match this repo.
 - Reviews status: `GET http://localhost:8000/api/reviews/status` (row count, last refresh, scheduler)
 - Reviews decision: `GET http://localhost:8000/api/reviews/decision` (latest fetch decision: `skip_no_new` / `skip_low_signal` / `run_ready`)
+- Quotes export (PII-minimal CSV): `GET http://localhost:8000/api/reviews/quotes-export` → `feedback_id`, `feedback_date`, `quote_text` (no reviewer names)
 - Manual fetch (protected): `POST http://localhost:8000/api/reviews/fetch` with `X-Cron-Token`
 - Create preview (pulse + fee + **N**): `POST http://localhost:8000/api/preview/create` (requires reviews CSV + LLM keys; see `.env.example`)
 - Data files (default): `apps/backend/data/reviews_master.csv`, `reviews_metadata.json`, `weekly_pulse_counter.json` (preview serial)

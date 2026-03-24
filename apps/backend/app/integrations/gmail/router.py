@@ -15,6 +15,8 @@ from app.integrations.gmail.config import (
 from app.integrations.gmail.recipients import resolve_recipients
 from app.integrations.gmail.schemas import GmailSendRequest, GmailSendResponse
 from app.integrations.gmail.service import send_email
+from app.reviews import config as reviews_config
+from app.reviews import csv_store
 from app.subscribers.store import list_subscribers
 
 logger = logging.getLogger(__name__)
@@ -59,6 +61,13 @@ async def post_gmail_send(body: GmailSendRequest) -> GmailSendResponse:
     if not send_to:
         raise HTTPException(status_code=400, detail="No recipients after filtering")
 
+    attachments: list[tuple[str, bytes, str, str]] | None = None
+    if body.attach_quotes_export:
+        raw = csv_store.build_quotes_export_csv_bytes(reviews_config.get_csv_path())
+        attachments = [
+            ("review_quotes_export.csv", raw, "text", "csv"),
+        ]
+
     try:
         await asyncio.to_thread(
             send_email,
@@ -66,6 +75,7 @@ async def post_gmail_send(body: GmailSendRequest) -> GmailSendResponse:
             subject=body.subject,
             body_plain=body.body_plain,
             body_html=body.body_html,
+            attachments=attachments,
         )
     except smtplib.SMTPException as e:
         logger.warning("SMTP error: %s", e)

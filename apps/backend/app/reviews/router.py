@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from fastapi import APIRouter, Header, HTTPException
+from fastapi import APIRouter, Header, HTTPException, Response
 
 from app.reviews import config, csv_store, metadata, service
 from app.reviews.schemas import FetchTriggerResponse, ReviewsDecisionResponse, ReviewsStatusResponse
@@ -60,6 +60,21 @@ async def post_reviews_fetch(
         last_filtered_count=meta.last_filtered_count,
         last_meaningful_count=meta.last_meaningful_count,
         last_decision=meta.last_decision,
+    )
+
+
+@router.get("/quotes-export")
+def get_reviews_quotes_export() -> Response:
+    """Download CSV: feedback_id, feedback_date, quote_text (no reviewer names)."""
+    csv_path = config.get_csv_path()
+    data = csv_store.build_quotes_export_csv_bytes(csv_path)
+    return Response(
+        content=data,
+        media_type="text/csv; charset=utf-8",
+        headers={
+            "Content-Disposition": 'attachment; filename="review_quotes_export.csv"',
+            "Cache-Control": "no-store",
+        },
     )
 
 

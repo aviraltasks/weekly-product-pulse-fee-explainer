@@ -148,6 +148,18 @@ export function AdminReviewStatus() {
           {refreshing ? "Fetching…" : "Refresh reviews now"}
         </button>
       </p>
+      <p className="muted small" style={{ marginTop: "0.75rem" }}>
+        <a
+          href={`${apiBase()}/api/reviews/quotes-export`}
+          className="link-button"
+          download
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Download all quotes (CSV)
+        </a>
+        <span className="muted"> — id, date, full text (no reviewer names)</span>
+      </p>
     </section>
   );
 }

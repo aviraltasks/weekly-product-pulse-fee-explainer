@@ -15,6 +15,10 @@ class GmailSendRequest(BaseModel):
         default=None,
         description="Optional HTML part; Gmail shows this when present",
     )
+    attach_quotes_export: bool = Field(
+        default=False,
+        description="If true, attach PII-minimal CSV (id, date, quote text) from reviews store",
+    )
 
 
 class GmailSendResponse(BaseModel):

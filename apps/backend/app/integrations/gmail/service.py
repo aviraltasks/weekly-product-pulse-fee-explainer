@@ -9,6 +9,7 @@ from __future__ import annotations
 import logging
 import smtplib
 from email.message import EmailMessage
+from typing import Sequence
 
 from app.integrations.gmail.config import (
     SMTP_HOST,
@@ -28,10 +29,12 @@ def send_email(
     body_html: str | None = None,
     from_email: str | None = None,
     app_password: str | None = None,
+    attachments: Sequence[tuple[str, bytes, str, str]] | None = None,
 ) -> None:
     """
     Deliver mail (not Drafts). Uses STARTTLS on port 587.
     If body_html is set, sends multipart/alternative (plain + HTML).
+    Optional attachments: list of (filename, data_bytes, maintype, subtype), e.g. csv.
     """
     user = from_email or get_gmail_smtp_user()
     pwd = app_password or get_gmail_app_password()
@@ -45,6 +48,15 @@ def send_email(
     msg.set_content(body_plain, subtype="plain", charset="utf-8")
     if body_html:
         msg.add_alternative(body_html, subtype="html", charset="utf-8")
+
+    if attachments:
+        for filename, raw, maintype, subtype in attachments:
+            msg.add_attachment(
+                raw,
+                maintype=maintype,
+                subtype=subtype,
+                filename=filename,
+            )
 
     with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=60) as smtp:
         smtp.starttls()

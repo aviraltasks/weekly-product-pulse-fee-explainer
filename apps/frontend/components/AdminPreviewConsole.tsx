@@ -44,6 +44,7 @@ export function AdminPreviewConsole() {
   const [actionMessage, setActionMessage] = useState<string | null>(null);
   const [showJson, setShowJson] = useState(false);
   const [lastReviewFetchIso, setLastReviewFetchIso] = useState<string | null>(null);
+  const [attachQuotesExport, setAttachQuotesExport] = useState(false);
 
   const loadSubscribers = useCallback(async () => {
     setError(null);
@@ -162,6 +163,7 @@ export function AdminPreviewConsole() {
           subject: preview.email.subject,
           body_plain: preview.email.body_plain,
           body_html: preview.email.body_html,
+          attach_quotes_export: attachQuotesExport,
         }),
       });
       if (!res.ok) {
@@ -172,7 +174,8 @@ export function AdminPreviewConsole() {
         data.rejected?.length > 0
           ? ` Rejected (not in list): ${data.rejected.join(", ")}.`
           : "";
-      setActionMessage(`Email sent to: ${data.sent_to.join(", ")}.${rej}`);
+      const att = attachQuotesExport ? " Attached review_quotes_export.csv." : "";
+      setActionMessage(`Email sent to: ${data.sent_to.join(", ")}.${rej}${att}`);
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {
@@ -259,6 +262,16 @@ export function AdminPreviewConsole() {
           <p className="muted small">
             Append and Send are independent — use either or both after reviewing the preview.
           </p>
+          <label className="checkbox-row" style={{ marginBottom: "0.75rem" }}>
+            <input
+              type="checkbox"
+              checked={attachQuotesExport}
+              onChange={(e) => setAttachQuotesExport(e.target.checked)}
+            />
+            <span className="muted small">
+              Attach all quotes CSV to email (id, date, text — no names; same as download link)
+            </span>
+          </label>
           <div className="stack">
             <button
               type="button"

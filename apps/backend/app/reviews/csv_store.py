@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import io
 import os
 import tempfile
 from pathlib import Path
@@ -73,6 +74,36 @@ def write_reviews_atomic(csv_path: Path, rows: list[dict[str, Any]]) -> None:
                 os.remove(tmp)
             except OSError:
                 pass
+
+
+EXPORT_FIELDNAMES: tuple[str, ...] = (
+    "feedback_id",
+    "feedback_date",
+    "quote_text",
+)
+
+
+def build_quotes_export_csv_bytes(csv_path: Path) -> bytes:
+    """
+    PII-minimal export for teams: Play review id, review timestamp, verbatim text only.
+    Omits user_name and all other CSV columns.
+    """
+    rows = read_reviews_by_id(csv_path)
+    buf = io.StringIO()
+    w = csv.writer(buf)
+    w.writerow(list(EXPORT_FIELDNAMES))
+    ordered = sorted(
+        rows.values(),
+        key=lambda r: (r.get("at_iso") or "", r.get("review_id") or ""),
+    )
+    for row in ordered:
+        rid = str(row.get("review_id", "")).strip()
+        at = str(row.get("at_iso", "")).strip()
+        content = str(row.get("content", "")).strip()
+        if not content:
+            continue
+        w.writerow([rid, at, content])
+    return buf.getvalue().encode("utf-8")
 
 
 def merge_new_reviews(

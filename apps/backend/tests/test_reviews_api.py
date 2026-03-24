@@ -61,6 +61,38 @@ def test_status_with_csv_row(reviews_data_dir, client_reviews_dir) -> None:
     assert r.json()["review_count"] == 1
 
 
+def test_quotes_export_csv_headers_and_no_user_name(client_reviews_dir, reviews_data_dir) -> None:
+    from app.reviews import config, csv_store
+
+    csv_store.merge_new_reviews(
+        config.get_csv_path(),
+        [
+            {
+                "review_id": "exp-1",
+                "user_name": "Secret Name",
+                "content": "Verbatim review text here long enough",
+                "score": "5",
+                "review_created_version": "",
+                "at_iso": "2025-06-01T12:00:00+00:00",
+                "thumbs_up": "0",
+                "reply_content": "",
+                "replied_at_iso": "",
+                "app_version": "",
+                "fetched_at_iso": "2025-06-02T00:00:00+00:00",
+            }
+        ],
+    )
+    r = client_reviews_dir.get("/api/reviews/quotes-export")
+    assert r.status_code == 200
+    assert "text/csv" in r.headers.get("content-type", "")
+    text = r.content.decode("utf-8")
+    assert "feedback_id,feedback_date,quote_text" in text
+    assert "exp-1" in text
+    assert "2025-06-01T12:00:00+00:00" in text
+    assert "Verbatim review text here long enough" in text
+    assert "Secret Name" not in text
+
+
 def test_decision_endpoint_empty(client_reviews_dir) -> None:
     r = client_reviews_dir.get("/api/reviews/decision")
     assert r.status_code == 200
